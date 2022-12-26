@@ -40,8 +40,7 @@ pipelines:
             - docker  
           script:
             - export DOCKER_URI=hello-world
-         
-            - export task = `cat td.json`
+            - export task=`cat td.json`
             - echo $task | jq '.taskDefinition | .containerDefinitions[0].image = "${NEW_IMAGE}" 
 
 definitions:
