@@ -1,8 +1,5 @@
 image:
-  name: 624544902205.dkr.ecr.eu-west-1.amazonaws.com/node:1.0.0
-  aws:
-    access-key: $AWS_ID
-    secret-key: $AWS_SECRET
+image: atlassian/default-image:3
 
 pipelines:
   custom:
