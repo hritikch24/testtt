@@ -41,7 +41,7 @@ pipelines:
           script:
             - export DOCKER_URI=hello-world
          
-            - echo "hello world 2"
+            - cat td.json
 
 definitions:
   caches:
