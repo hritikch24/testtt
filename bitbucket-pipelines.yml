@@ -1,0 +1,49 @@
+image:
+  name: 624544902205.dkr.ecr.eu-west-1.amazonaws.com/node:1.0.0
+  aws:
+    access-key: $AWS_ID
+    secret-key: $AWS_SECRET
+
+pipelines:
+  custom:
+    deploy:
+      - variables:
+          - name: ENVIRONMENT
+      - step:
+          name: default steps
+          caches:
+            - npm 
+      - step:
+          name: Build and Push Docker Image to dev
+          trigger: manual
+          caches:
+            - npm
+            - docker
+          services:
+            - docker  
+          script:
+            - export DOCKER_URI=hello-world
+            # Login to docker registry on AWS
+            #- eval $(aws ecr get-login --no-include-email)
+            - echo "hello world"
+
+  branches:
+    forces:
+      - step:
+          name: Build and Push Docker Image   
+          deployment: Test
+          trigger: automatic
+          caches:
+            - npm
+            - docker
+          services:
+            - docker  
+          script:
+            - export DOCKER_URI=hello-world
+            # Login to docker registry on AWS
+            #- eval $(aws ecr get-login --no-include-email)
+            - echo "hello world 2"
+
+definitions:
+  caches:
+    npm: ~/.npm
