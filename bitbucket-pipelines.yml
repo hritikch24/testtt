@@ -1,0 +1,48 @@
+image:
+image: atlassian/default-image:3
+
+pipelines:
+  custom:
+    deploy:
+      - variables:
+          - name: ENVIRONMENT
+      - step:
+          name: default steps
+          caches:
+            - npm 
+          services:
+            - docker  
+          script:
+            - export DOCKER_URI=hello-world
+            - echo "hello world"
+      - step:
+          name: Build and Push Docker Image to dev
+          trigger: manual
+          caches:
+            - npm
+            - docker
+          services:
+            - docker  
+          script:
+            - export DOCKER_URI=hello-world
+            - echo "hello world"
+
+  branches:
+    forces:
+      - step:
+          name: Build and Push Docker Image   
+          deployment: Test
+          trigger: automatic
+          caches:
+            - npm
+            - docker
+          services:
+            - docker  
+          script:
+            - export DOCKER_URI=hello-world
+         
+            - echo "hello world 2"
+
+definitions:
+  caches:
+    npm: ~/.npm
